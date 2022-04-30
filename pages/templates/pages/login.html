@@ -1,0 +1,41 @@
+{% extends 'pages/main.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="wrapper p-4">
+        <div class="title">
+            Login
+        </div>
+        <hr>
+        <br>
+        <div class="form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="inputfield">
+                    <input type="text" name="username" class="input" placeholder="Username..">
+                </div> 
+            
+                <div class="inputfield">
+                <input type="password" class="input" name="password" placeholder="Password..">
+                </div>  
+                <div class="title">
+                    <button type="submit" class="px-5 btn btn-primary active">Log in</button>
+                </div><br>
+
+                {{form.errors}}
+                {% for message in messages  %}
+                    <p id='messages'>{{message}}</p>
+                {% endfor %}
+            </form>
+
+            <p>Don't have an account? <a href="{% url 'register' %}">Signup</a></p>
+            {% comment %} <p>Forgot Password? <a href="{% url 'reset_password' %}">Reset Password</a> {% endcomment %}
+        </div>
+    </div>
+    <div class="floatimg3">
+        <img src="{% static 'images/flotingimg.png' %}" alt="floating-burger">
+      </div>
+{% endblock %}

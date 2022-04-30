@@ -1,0 +1,116 @@
+{% extends 'pages/main.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+  {% if not cart_items %}
+    <div class="text-center">
+      <br>
+      <h1 class="text-center product_title">
+        Your item cart is empty
+      </h1>
+      <br>
+      <p class="text-center">
+        Please click <a href="{% url 'menu' %}">here</a> to continue have a look at the menu
+      </p>
+    </div>
+  {% else %}
+  <div class="text-center">
+    <br>
+    <div class="text-center product_title">
+      Your shopping cart
+    </div>
+  </div>
+  <div class="row mx-auto">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+      <table class="table cart_table">
+        <thead class="cart_thead">
+          <tr>
+            <th colspan="4">
+              Your items
+            </th>
+          </tr>
+        </thead>
+        {% for cart_item in cart_items %}
+          <tr>
+            <td>
+              <a href="cart_item.product.get_url">
+                <img src="{{cart_item.item.image.url}}" width="100" height="100" alt="">
+              </a>
+            </td>
+            <td class="text-left">
+              {{cart_item.item.name}}
+              <br>
+              Item ID: {{cart_item.item.id}}
+              <br>
+              Unit Price: Rs. {{cart_item.item.price}}
+              <br>
+              Qty: {{cart_item.quantity}} x {{cart_item.item.price}}
+            </td>
+            <td>
+              ${{cart_item.sub_total}}
+            </td>
+            {% if cart_item.quantity < cart_item.item.stock %}
+            <td>
+              &nbsp;<a href="{% url 'add_item' cart_item.item.id %}"><i class="fas fa-plus-circle cart_icon"></i></a>
+              &nbsp;<a href="{% url 'cart_remove' cart_item.item.id %}"><i class="fas fa-minus-circle cart_icon"></i></a>
+              &nbsp;<a href="{% url 'cart_remove_product' cart_item.item.id %}"><i class="fas fa-trash-alt cart_icon"></i></a>
+            </td>
+            {% else %}
+            <td>
+              &nbsp;<a href="{% url 'cart_remove' cart_item.item.id %}"><i class="fas fa-minus-circle cart_icon"></i></a>
+              &nbsp;<a href="{% url 'cart_remove_product' cart_item.item.id %}"><i class="fas fa-trash-alt cart_icon"></i></a>
+            </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+
+      </table>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-6 text-center">
+      <table class="table cart_table">
+        <thead class="cart_thead">
+            <tr>
+              <th>
+                Check out
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Please review your cart items before proceeding with the payment.
+              </td>
+            </tr>
+            <tr>
+              <td class="text-left">
+                Your total is: <strong>Rs. {{total}}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mx-auto">
+          <form method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Email"></input><br>
+            <input type="text" name="name" placeholder="Name"></input><br>
+            <input type="text" name="address" placeholder="Address"></input><br>
+            <input type="text" name="city" placeholder="City"></input><br>
+            <input type="text" name="postcode" placeholder="Postcode"></input><br>
+            <input type="text" name="country" placeholder="Country"></input><br>
+          
+          <button type="submit" class="btn btn-lg btn-success btn-block text-white">
+            Pay Now
+          </button>
+          </form>
+          {% comment %} <a href="{% url 'home' %}" style="text-decoration: none;">
+            <button type="button" class="btn btn-lg btn-block bg-dark text-white">
+              Continue Shopping
+            </button>
+          </a> {% endcomment %}
+        </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'pages/main.html' %}
+
+{% load static %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+{% comment %} <h3>Register here</h3>
+<hr>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form.username.label}}
+    {{form.username}}<br>
+    {{form.first_name.label}}
+    {{form.first_name}}<br>
+    Phone Number
+    {{form.last_name}}<br>
+    {{form.email.label}}
+    {{form.email}}<br>
+    {{form.password1.label}}
+    {{form.password1}}<br>
+    {{form.password2.label}}
+    {{form.password2}}<br>
+    <button type="submit">Register Now</button>
+    {{form.errors}}
+</form> {% endcomment %}
+    <div class="wrapper p-5">
+        <div class="title">
+          Registration 
+        </div>
+        <hr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form">
+                <div class="inputfield">
+                    {{form.first_name}}
+                </div> 
+                <div class="inputfield">
+                    {{form.last_name}}
+                </div>  
+                <div class="inputfield">
+                    {{form.username}}
+                </div> 
+                <div class="inputfield">
+                    {{form.email}}
+                </div> 
+                
+                <div class="inputfield">
+                    {{form.password1}}
+                </div>  
+                <div class="inputfield">
+                    {{form.password2}}
+                </div> 
+                <div class="title">
+                    <button class="btn btn-warning btn-btn-lg" type="submit">Register Now</button>
+                    {{form.errors}}
+                </div>
+                <div class="inputfield">
+                    <h5>Already registered?<a href="{% url 'login' %}">login now</a></h5>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+    var form_fields = document.getElementsByTagName('input')
+        form_fields[2].placeholder='First Name..';
+        form_fields[3].placeholder='Last Name..';
+        form_fields[4].placeholder='Username...';
+        form_fields[5].placeholder='Email Address...';
+        form_fields[6].placeholder='Password...';
+        form_fields[7].placeholder='Confirm Password...';
+
+        for (var field in form_fields){	
+        form_fields[field].className += ' form-control'
+        }
+    </script>
+    <div class="floatimg2">
+      <img src="{% static 'images/flotingimg.png' %}" alt="floating-burger">
+    </div>
+{% endblock %}

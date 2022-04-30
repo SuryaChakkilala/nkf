@@ -1,0 +1,119 @@
+{% extends 'pages/main.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="wrapper p-4">
+        <div class="title">
+            Health Guru
+        </div>
+        <hr>
+        <br>
+        <div class="form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="inputfield">
+                    <input type="text" name="glucose" class="input" placeholder="Glucose Level..">
+                </div> 
+            
+                <div class="inputfield">
+                <input type="text" class="input" name="bloodpressure" placeholder="Blood Pressure..">
+                </div>  
+
+                <div class="inputfield">
+                    <input type="text" name="skinthickness" class="input" placeholder="Skin Thickness..">
+                </div> 
+            
+                <div class="inputfield">
+                <input type="text" class="input" name="insulin" placeholder="Insulin..">
+                </div>  
+
+                <div class="inputfield">
+                    <input type="text" name="bmi" class="input" placeholder="BMI..">
+                </div> 
+            
+                <div class="inputfield">
+                <input type="text" class="input" name="age" placeholder="Age..">
+                </div>  
+
+                <div class="title">
+                    <button type="submit" class="px-5 btn btn-primary active">Get Food Recommendations</button>
+                </div><br>
+
+                {{form.errors}}
+                {% for message in messages  %}
+                    <p id='messages'>{{message}}</p>
+                {% endfor %}
+
+                {{message}}
+                
+            </form>
+        </div>
+    </div class="recommendation-container" style="">
+    <div>
+    <div class="d-flex align-items-start flex-column bd-highlight mb-5" style="background-color: rgb(252, 250, 147); border-radius: 15px;">
+        {% comment %} <div class="food-items">
+            <img src="burger.png">
+            <div class="details">
+                <div class="details-sub">
+                    <h5>Chicken Burger</h5>
+                    <h5 class="price"> ₨ 180 </h5>
+                </div>
+                <p>Fresh juicy crispy chicken burger is ready to serve you through your table</p>
+                <button>Add To Cart</button>
+            </div>
+        </div> {% endcomment %}
+        <div class="heading">
+            <h3>Food for you!</h3>
+          </div>
+          {% if not items %}
+              <div class="text-center">
+                  <br>
+                  <h1 class="text-center product_title">
+                  Fill out the form.....
+                  </h1>
+                  <br>
+                  <p class="text-center">
+                  Please click <a href="{% url 'menu' %}">here</a> to continue have a look at the menu
+                  </p>
+              </div>
+          {% else %}
+          {% for item in items %}
+              <div class="food-items">
+                  <img src="{{item.imageURL}}" alt="{{item.name}}">
+                  <div class="details">
+                      <div class="details-sub">
+                          <h5>{{item.name}}</h5>
+                          <h5 class="price">  ₨ {{item.price|floatformat:2}} </h5>
+                      </div>
+                      <p class="product_text">{{item.description}}</p>
+                      {% if item.stock <= 0 %}
+                          <p class="product_description"><b>Out of Stock</b></p>
+                      {% else %}
+                          <a href="{% url 'add_item' item.id %}">
+                              <button type="button" name="button" class="btn btn-secondary">
+                                  Add to Cart
+                              </button>
+                          </a>
+                      {% endif %}
+                  </div>
+              </div>
+              <div class="food-items">
+                <img src="burger.png">
+                <div class="details">
+                    <div class="details-sub">
+                        <h5>Chicken Burger</h5>
+                        <h5 class="price"> ₨ 180 </h5>
+                    </div>
+                    <p>Fresh juicy crispy chicken burger is ready to serve you through your table</p>
+                    <button>Add To Cart</button>
+                </div>
+            </div>
+          {% endfor %}
+      
+              </div>
+          {% endif %}
+    </div>
+{% endblock %}

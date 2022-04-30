@@ -1,0 +1,22 @@
+{% extends 'pages/main.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class="background-effect">
+     
+      <div class="main-search-input-wrap">
+        <h1>NoKitchenFood</h1>
+        <div class="main-search-input fl-wrap">
+          <form class="d-flex" action="/search/" method="GET">
+            <div class="main-search-input-item"> <input type="text" name="name" value="" placeholder="Search for yummy foodz..."> </div> <button type="submit" class="main-search-button" style="font-size :20px;"><i class="bi bi-search"></i> Search</button>
+          </form>
+        </div>
+    </div> <br>
+</div>
+<section class="home" id="home">
+  <div class="floatimg">
+    <img src="{% static 'images/flotingimg.png' %}" alt="floating-burger">
+  </div>
+</section>
+{% endblock %}

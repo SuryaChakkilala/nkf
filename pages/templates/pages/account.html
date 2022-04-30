@@ -1,0 +1,29 @@
+{% extends 'pages/main.html' %}
+
+{% block content %}
+<div class="p-5">
+    <h1>Hi {{user.username}}!</h1>
+    {% if user.is_superuser %}
+        <a href='/admin'>Click Here to go to the Admin Portal</a><br>
+    {% endif %}
+    <br><br><h3>Details:</h3>
+    <table class="table table-dark table-hover">
+        <tbody>
+            <tr>
+                <td>Username</td>
+                <td>{{user.username}}</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{user.first_name}} {{user.last_name}}</td>
+            </tr>
+            <tr>
+                <td>Email Address</td>
+                <td>{{user.email}}</td>
+            </tr>
+        </tbody>
+      </table>
+      <br><br><br><br><br><br><br><br><br><br>
+    </table>
+</div>
+{% endblock  %}

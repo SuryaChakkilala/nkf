@@ -1,0 +1,48 @@
+{% extends 'pages/main.html' %}
+
+{% load static %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<div class="menu">
+    <div class="heading">
+      <h3>NoKitchen Menu</h3>
+    </div>
+    {% if not items %}
+        <div class="text-center">
+            <br>
+            <h1 class="text-center product_title">
+            No items found with that name.....
+            </h1>
+            <br>
+            <p class="text-center">
+            Please click <a href="{% url 'menu' %}">here</a> to continue have a look at the menu
+            </p>
+        </div>
+    {% else %}
+    {% for item in items %}
+        <div class="food-items">
+            <img src="{{item.imageURL}}" alt="{{item.name}}">
+            <div class="details">
+                <div class="details-sub">
+                    <h5>{{item.name}}</h5>
+                    <h5 class="price">  ₨ {{item.price|floatformat:2}} </h5>
+                </div>
+                <p class="product_text">{{item.description}}</p>
+                {% if item.stock <= 0 %}
+                    <p class="product_description"><b>Out of Stock</b></p>
+                {% else %}
+                    <a href="{% url 'add_item' item.id %}">
+                        <button type="button" name="button" class="btn btn-secondary">
+                            Add to Cart
+                        </button>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+        </div>
+    {% endif %}
+{% endblock %}

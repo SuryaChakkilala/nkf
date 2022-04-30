@@ -1,0 +1,1 @@
+web: gunicorn nfk.wsgi --log-file -
