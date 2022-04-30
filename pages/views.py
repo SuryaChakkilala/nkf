@@ -252,3 +252,6 @@ def temp(request):
     orderitems = list(orderitems)
     context = {'orderitems': orderitems}
     return render(request, 'pages/temp.html', context)
+
+def error_404(request, exception):
+    return render(request, 'pages/404.html')

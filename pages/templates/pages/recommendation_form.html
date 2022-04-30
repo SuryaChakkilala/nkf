@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Health Guru{% endblock %}
 
 {% block content %}
     <div class="wrapper p-4">
@@ -81,7 +81,7 @@
               </div>
           {% else %}
           {% for item in items %}
-              <div class="food-items">
+              <div class="food-items2">
                   <img src="{{item.imageURL}}" alt="{{item.name}}">
                   <div class="details">
                       <div class="details-sub">
@@ -99,6 +99,7 @@
                           </a>
                       {% endif %}
                   </div>
+                  
               </div>
           {% endfor %}
       

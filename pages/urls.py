@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from django.conf.urls import handler404
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -21,3 +22,5 @@ urlpatterns = [
     path('analytics/', views.analytics, name='analytics'),
     path('temp/', views.temp, name='temp')
 ]
+
+handler404 = 'pages.views.error_404'
