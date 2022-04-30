@@ -121,7 +121,9 @@ section{
 
 }
  .floatimg img{
-    width:100%;
+    width:87%;
+    left: 20px;
+    margin-left: 100px;
     animation:float 3s linear infinite;
 }
 

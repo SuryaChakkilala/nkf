@@ -17,5 +17,6 @@ urlpatterns = [
     path('menu/nonveg', views.nonvegetarian, name='nonveg'),
     path('search/', views.search, name='search'),
     path('recommendation_form/', views.recommendation_form, name='ml'),
-    path('thanks/', views.thanks, name='thanks')
+    path('thanks/', views.thanks, name='thanks'),
+    path('analytics/', views.analytics, name='analytics')
 ]

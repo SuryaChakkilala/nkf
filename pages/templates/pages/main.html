@@ -28,11 +28,15 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <form class="d-flex" action="/search/" method="GET">
-            <input class="form-control me-2" type="text" placeholder="Search.." aria-label="Search" name="name" style="border-radius: 10px;">
+            <input class="form-control me-2" type="text" placeholder="Search.." aria-label="Search" name="name" style="border-radius: 10px; width: 500px;">
             <button class="btn btn-outline-light" type="submit" style="background:#ffde59;border-radius: 40px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg></button>
-          </form>
+          </form>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}"><i class="bi bi-house-fill" style="color:#ffde59"></i>&nbsp;Home</a>
+          </li>
+
           <!-- -----category----- -->
           {% comment %} <div class="dropdown">
           <li class="nav-item active">
@@ -48,7 +52,6 @@
         <div class="dropdown">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'menu' %}"  id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"> <i class="bi bi-justify-right" style="color:#ffde59"></i> Menu</a>
-
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
               <li><a class="dropdown-item" href="{% url 'menu' %}">All items</a></li>
               <li><a class="dropdown-item" href="{% url 'nonveg' %}">NON-Veg</a></li>
@@ -62,11 +65,15 @@
           </li> {% endcomment %}
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-minecart-loaded" style="color:#ffde59"></i> Cart</a>
+            <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-minecart-loaded" style="color:#ffde59"></i>&nbsp;Cart</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'ml' %}"><i class="bi bi-clipboard-plus" style="color:#ffde59"></i>Health Guru</a>
+            <a class="nav-link" href="{% url 'ml' %}"><i class="bi bi-clipboard-plus" style="color:#ffde59"></i>&nbsp;Health Guru</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'analytics' %}"><i class="bi bi-bar-chart-line-fill" style="color:#ffde59"></i>&nbsp;Analytics</a>
           </li>
 
           {% if user.is_superuser %}
@@ -98,6 +105,16 @@
   </nav>
 
   {% block content %}{% endblock %}
-    
+  <script type="text/javascript">
+    (function(d, m){
+        var kommunicateSettings = 
+            {"appId":"3c6349ef8aa289e18091579d13dca7eac","popupWidget":true,"automaticChatOpenOnNavigation":true};
+        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+        window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+  /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+  </script>
 </body>
 </html>

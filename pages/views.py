@@ -221,3 +221,7 @@ def recommendation_form(request):
 def thanks(request):
     context = {}
     return render(request, 'pages/thanks.html', context)
+
+def analytics(request):
+    context = {}
+    return render(request, 'pages/analytics.html', context)
