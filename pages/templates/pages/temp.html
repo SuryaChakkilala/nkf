@@ -1,0 +1,9 @@
+{% extends 'pages/main.html' %}
+
+{% block title %}Thank You{% endblock %}
+
+{% block content %}
+{% for item in orderitems %}
+    {{item}}
+{% endfor %}
+{% endblock %}

@@ -7,6 +7,8 @@ from .forms import RegisterUserForm, UserUpdateForm
 from django.contrib.auth import login, logout, authenticate
 from .models import Food, Cart, CartItem, Order, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+from django.db.models import Count
 from joblib import load
 import numpy as np
 
@@ -17,7 +19,10 @@ def home(request):
 
 def menu(request):
     items = Food.objects.all()
-    context = {'items': items}
+    p = Paginator(Food.objects.all().order_by('-times_ordered'), 6)
+    page = request.GET.get('page')
+    foods = p.get_page(page)
+    context = {'items': items, 'foods': foods}
     return render(request, 'pages/menu.html', context)
 
 def account(request):
@@ -35,7 +40,8 @@ def account(request):
     return render(request, 'pages/account.html', context)
 
 def orders(request):
-    context = {}
+    orderitems = OrderItem.objects.all().filter(user_id=request.user.id)
+    context = {'orderitems': orderitems}
     return render(request, 'pages/orders.html', context)
 
 def loginPage(request):
@@ -81,17 +87,26 @@ def registerPage(request):
 
 def vegetarian(request):
     items = Food.objects.all().filter(vegetarian=True)
-    context = {'items': items}
+    p = Paginator(Food.objects.all().filter(vegetarian=True).order_by('-times_ordered'), 6)
+    page = request.GET.get('page')
+    foods = p.get_page(page)
+    context = {'items': items, 'foods': foods}
     return render(request, 'pages/menu.html', context)
 
 def nonvegetarian(request):
     items = Food.objects.all().filter(vegetarian=False)
-    context = {'items': items}
+    p = Paginator(Food.objects.all().filter(vegetarian=False).order_by('-times_ordered'), 6)
+    page = request.GET.get('page')
+    foods = p.get_page(page)
+    context = {'items': items, 'foods': foods}
     return render(request, 'pages/menu.html', context)
 
 def search(request):
     items = Food.objects.filter(name__contains=request.GET['name'])
-    context = {'items': items}
+    p = Paginator(Food.objects.filter(name__contains=request.GET['name']).order_by('-times_ordered'), 6)
+    page = request.GET.get('page')
+    foods = p.get_page(page)
+    context = {'items': items, 'foods': foods}
     return render(request, 'pages/menu.html', context)
 
 def _cart_id(request):
@@ -149,7 +164,8 @@ def cart(request, total=0, counter=0, cart_items=None):
                     address=address,
                     city=city,
                     postcode=postcode,
-                    country=country
+                    country=country,
+                    user_id=request.user.id
                 )
                 order_details.save()
                 for order_item in cart_items:
@@ -157,17 +173,19 @@ def cart(request, total=0, counter=0, cart_items=None):
                         item = order_item.item.name,
                         quantity=order_item.quantity,
                         price=order_item.item.price,
-                        order=order_details
+                        order=order_details,
+                        user_id=request.user.id
                     )
                     or_item.save()
                     items = Food.objects.get(id=order_item.item.id)
                     items.stock = int(order_item.item.stock - order_item.quantity)
+                    items.times_ordered = int(order_item.item.times_ordered + order_item.quantity)
                     items.save()
                     order_item.delete()
                     print('done')
                 return redirect('thanks')
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
         except:
             print('error2')
 
@@ -223,5 +241,14 @@ def thanks(request):
     return render(request, 'pages/thanks.html', context)
 
 def analytics(request):
-    context = {}
+    orderitems = set(OrderItem.objects.all().values_list("item").annotate(freq=Count("item")))
+    orderitems = list(orderitems)
+    context = {'orderitems': orderitems}
     return render(request, 'pages/analytics.html', context)
+
+def temp(request):
+    orderitems = set(OrderItem.objects.all().values_list("item").annotate(freq=Count("item")))
+    print(orderitems)
+    orderitems = list(orderitems)
+    context = {'orderitems': orderitems}
+    return render(request, 'pages/temp.html', context)

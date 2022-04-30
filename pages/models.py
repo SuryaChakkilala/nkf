@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Food(models.Model):
@@ -22,6 +23,7 @@ class Food(models.Model):
     healthy = models.BooleanField(default=False)
     vegetarian = models.BooleanField(default=True)
     category = models.TextField(choices=cat_choice)
+    times_ordered = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -61,7 +63,7 @@ class CartItem(models.Model):
         return self.product
 
 class Order(models.Model):
-    total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='USD Order Total')
+    total = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Order Total')
     emailAddress = models.EmailField(max_length=250, blank=True, verbose_name='Email Address')
     created = models.DateTimeField(auto_now_add=True)
     name = models.CharField(max_length=250, blank=True)
@@ -69,6 +71,8 @@ class Order(models.Model):
     city = models.CharField(max_length=250, blank=True)
     postcode = models.CharField(max_length=250, blank=True)
     country = models.CharField(max_length=250, blank=True)
+    user_id = models.CharField(max_length=400, default='.')
+    delivered = models.BooleanField(default=False) 
 
     def __str__(self):
         return str(self.id)
@@ -78,6 +82,8 @@ class OrderItem(models.Model):
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    user_id = models.CharField(max_length=500, default='.')
+    date_added = models.DateField(auto_now_add=True)
 
     def sub_total(self):
         return self.quantity * self.price

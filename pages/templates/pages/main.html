@@ -28,7 +28,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <form class="d-flex" action="/search/" method="GET">
-            <input class="form-control me-2" type="text" placeholder="Search.." aria-label="Search" name="name" style="border-radius: 10px; width: 500px;">
+            <input class="form-control me-2" type="text" placeholder="Search.." aria-label="Search" name="name" style="border-radius: 10px; width: 300px;">
             <button class="btn btn-outline-light" type="submit" style="background:#ffde59;border-radius: 40px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
             </svg></button>
@@ -63,14 +63,20 @@
           {% comment %} <li class="nav-item">
             <a class="nav-link" href="{% url 'orders' %}"><i class="bi bi-card-checklist" style="color:#ffde59"></i> My Orders</a>
           </li> {% endcomment %}
-
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-minecart-loaded" style="color:#ffde59"></i>&nbsp;Cart</a>
-          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'cart' %}"><i class="bi bi-minecart-loaded" style="color:#ffde59"></i>&nbsp;Cart</a>
+            </li>
+          {% endif %}
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'ml' %}"><i class="bi bi-clipboard-plus" style="color:#ffde59"></i>&nbsp;Health Guru</a>
           </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'orders' %}"><i class="bi bi-calendar-range-fill" style="color:#ffde59"></i>&nbsp;My Orders</a>
+            </li>
+          {% endif %}
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'analytics' %}"><i class="bi bi-bar-chart-line-fill" style="color:#ffde59"></i>&nbsp;Analytics</a>
@@ -84,7 +90,7 @@
 
           <div class="dropdown mx-3">
             <button class="btn btn-warning dropdown-toggle" data-hover="dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 40px;">
-              <i class="bi bi-person-square"style="color:black;"></i> Account
+              <i class="bi bi-person-square"style="color:black;"></i> {% if user.is_authenticated %}Account {% else %}Sign In / Register{% endif %} 
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               {% if user.is_authenticated %}

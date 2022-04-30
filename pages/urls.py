@@ -18,5 +18,6 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('recommendation_form/', views.recommendation_form, name='ml'),
     path('thanks/', views.thanks, name='thanks'),
-    path('analytics/', views.analytics, name='analytics')
+    path('analytics/', views.analytics, name='analytics'),
+    path('temp/', views.temp, name='temp')
 ]
