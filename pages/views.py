@@ -3,7 +3,7 @@ from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import RegisterUserForm
+from .forms import RegisterUserForm, UserUpdateForm
 from django.contrib.auth import login, logout, authenticate
 from .models import Food, Cart, CartItem, Order, OrderItem
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,7 +21,17 @@ def menu(request):
     return render(request, 'pages/menu.html', context)
 
 def account(request):
-    context = {}
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    if request.method == "POST":
+        form = UserUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your Account with username {request.user.username} has succesfully been updated!')
+            return redirect('account')
+    form = UserUpdateForm(instance=request.user)
+    context = {'form': form}
     return render(request, 'pages/account.html', context)
 
 def orders(request):

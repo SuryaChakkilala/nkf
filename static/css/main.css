@@ -480,3 +480,7 @@ body {
 .custom_div {
   margin-bottom: 20px !important;
 }
+
+.padder {
+  margin-left: 100px;
+}
